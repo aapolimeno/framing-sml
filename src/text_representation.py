@@ -1,8 +1,5 @@
-import pandas as pd 
 #from transformers import AutoTokenizer, AutoModel
 #import torch
-import spacy
-from spacy.lang.nl import Dutch
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords

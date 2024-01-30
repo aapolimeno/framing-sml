@@ -1,5 +1,3 @@
-import pandas as pd 
-import os
 from sklearn.metrics import classification_report
 #import matplotlib.pyplot as plt
 

@@ -1,7 +1,4 @@
-import pandas as pd
 from sklearn.svm import SVC
-from sklearn.model_selection import cross_val_score
-from sklearn.model_selection import KFold
 from sklearn.linear_model import LogisticRegression
 #rom sklearn.preprocessing import StandardScaler
 
