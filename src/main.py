@@ -1,6 +1,6 @@
 from preprocessing import get_train_test
 from text_representation import get_repr
-from classification import apply_lr
+from classification import apply_lr, apply_sgd
 from evaluation import start_eval
 import pandas as pd
 

@@ -1,6 +1,6 @@
 from sklearn.svm import SVC
 from sklearn.linear_model import LogisticRegression
-#rom sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import StandardScaler
 
 def convert_labels(test_labels, preds, framing):
     # Convert numerical labels back to strings for readability 

@@ -1,5 +1,5 @@
 #from transformers import AutoTokenizer, AutoModel
-#import torch
+import torch
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
@@ -42,7 +42,7 @@ def tfidf_vectorizer(documents):
     tfidf_repr = tfidf_vectorizer.fit_transform(preprocessed_documents)
     
     # Save the words in the vocabulary
-    feature_names = tfidf_vectorizer.get_feature_names()
+    feature_names = tfidf_vectorizer.get_feature_names_out()
     # Save the vectors as a DataFrame
     tfidf_array = tfidf_repr.toarray()
     
@@ -104,7 +104,6 @@ def get_sentence_embeddings(documents, input_type):
 
 def get_repr(df, method, input_type):
     
-    
     if input_type == 'texts' or input_type == 'paragraphs': 
         texts = df['text'].tolist()
        
@@ -120,14 +119,6 @@ def get_repr(df, method, input_type):
         vectors = get_sentence_embeddings(texts, input_type).tolist()
         df[f"{method}"] = vectors
 
-    if method == 'word_embeddings': 
-        vectors = get_word_embeddings(texts)
-        df[f'{method}'] = vectors
-
-    if method == 'custom_embeddings': 
-        vectors = get_custom_embeddings(texts, input_type)
-        df[f'{method}'] = vectors
- 
     
     return df
 
