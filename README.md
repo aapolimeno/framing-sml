@@ -1,6 +1,6 @@
 # Automatic Detection of Media Frames in Dutch COVID-19-related News Articles 
 
-## Description 
+## Description - -- - 
 This project investigates the automatic detection of media framing in news articles that are related to COVID-19 by means of machine learning. 
 
 ## Data
