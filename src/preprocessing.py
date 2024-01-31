@@ -172,7 +172,19 @@ def get_train_test(df, framing, text_method, input_type):
     
     """
     
-    if framing == 'valence': 
+    emphasis = ["E-responsibility", "E-conflict", "E-economic consequences", "E-human interest",
+               "E-morality", "E-info & stats"]
+
+    if framing in emphasis: 
+        df = df[['article_id', f'{text_method}', f'{framing}']]
+
+        # Add None variable
+        condition = (df[f'{framing}'] == 0) 
+        df.insert(0, 'None', 0)
+        df.loc[condition, 'None'] = 1
+
+    
+    elif framing == 'valence': 
         # Grab relevant valence columns
         df = df[["article_id", f"{text_method}","V-pos", "V-mod", "V-neg"]]
 
@@ -191,16 +203,6 @@ def get_train_test(df, framing, text_method, input_type):
         df.insert(0, 'None', 0)
         df.loc[condition, 'None'] = 1
 
-    emphasis = ["E-responsibility", "E-conflict", "E-economic consequences", "E-human interest",
-               "E-morality", "E-info & stats"]
-
-    elif framing in emphasis: 
-        df = df[['article_id', f'{text_method}', f'{framing}']]
-
-        # Add None variable
-        condition = (df[f'{framing}'] == 0) 
-        df.insert(0, 'None', 0)
-        df.loc[condition, 'None'] = 1
 
     # Train/test split 
     train, test = train_test_split(df, test_size = 0.20) 
