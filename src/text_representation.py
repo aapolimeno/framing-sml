@@ -1,35 +1,26 @@
-#from transformers import AutoTokenizer, AutoModel
 import torch
 import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, sent_tokenize
-#from gensim.models import Word2Vec
-#import nltk
-#import pdb
 
-#nlp = spacy.load("nl_core_news_md")
-
-# Run in command line if embeddings model isn't on your computer yet: 
-# python -m spacy download nl_core_news_md
-
-#nltk.download('stopwords')
-#nltk.download('punkt')
 
 def tfidf_vectorizer(documents): 
     """
+    Obtain BoW-TF*IDF representations of the text 
+    Perform preprocessing such as stop word filtering
     
+    Keyword parameters: 
+    documents - list containing strings as texts 
+    
+    Output:
+    tfidf - list containing tfidf representations 
     """
     
-    # Preprocess and filter stop words
-
-    # NLTK Dutch stop words
+    # Preprocess and filter stop words 
     stop_words = set(stopwords.words('dutch'))
     
-    
     preprocessed_documents = []
-    
-
     for doc in documents:
         tokens = word_tokenize(doc.lower())  # Tokenize and convert to lowercase
         filtered_tokens = [word for word in tokens if word not in stop_words]
@@ -50,9 +41,16 @@ def tfidf_vectorizer(documents):
     
     return tfidf
 
-
-
 def get_sentence_embeddings(documents, input_type):
+    """
+    Obtain sentence embeddings representations 
+    
+    Keyword parameters:
+    documents - 
+    input_type - string specifying the 
+    
+    """
+    
     model_name = "sentence-transformers/bert-base-nli-mean-tokens"
     tokenizer = AutoTokenizer.from_pretrained(model_name)
     model = AutoModel.from_pretrained(model_name)
@@ -97,11 +95,6 @@ def get_sentence_embeddings(documents, input_type):
     return sentence_embeddings
 
 
-
-
-
-
-
 def get_repr(df, method, input_type):
     
     if input_type == 'texts' or input_type == 'paragraphs': 
@@ -109,7 +102,6 @@ def get_repr(df, method, input_type):
        
     elif input_type == 'titles': 
         texts = df['title'].tolist()
-        
     
     if method == 'tfidf': 
         tfidf_vectors = tfidf_vectorizer(texts)

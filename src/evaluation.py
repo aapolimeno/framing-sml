@@ -11,6 +11,9 @@ def get_report(true_labels, pred_labels, framing):
     
 def get_confusion_matrix(true_labels, pred_labels, framing): 
     
+    # TO DO: write classification report to a .txt file instead of printing it 
+    
+    
     emphasis = ["E-responsibility", "E-conflict", "E-economic consequences", "E-human interest",
                "E-morality", "E-info & stats"]
 

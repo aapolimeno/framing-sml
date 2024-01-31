@@ -109,12 +109,10 @@ def apply_lr(train_features, train_labels, test_features, test_labels, framing):
 
 def apply_pa(train_features, train_labels, test_features, test_labels, framing):
 
-    # Create a Stochastic Gradient Descent classifier
     pac = PassiveAggressiveClassifier(max_iter=2000)
     
     #print('-------- Performing 10-fold cross-validation')
     
-    # Initialize a KFold cross-validation object
     #kf = KFold(n_splits=10, shuffle=True, random_state=42)
 
     # Perform five-fold cross-validation

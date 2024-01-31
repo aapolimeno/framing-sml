@@ -1,23 +1,23 @@
 import pandas as pd 
 from sklearn.model_selection import train_test_split
 
-
 def preprocess_general(data): 
-    
     """
     This function performs necessary preprocessing on the general dataset. 
+    
     The following steps are included: 
          - selection of relevant columns 
-         - label conversion, where strings containing all labels are transformed into columns 
-             containing one label each, with a binary encoding to show if it is present
-    
+         - label conversion from strings to binary encodings
+         - renaming of columns 
+
+    Input: a raw DataFrame 
+    Output: a preprocessed DataFrame
     """
-    
     # Select the relevant columns 
     df = data[["id", "text", "label"]]
     
     # Rewrite the labels to binary encodings
-    # So transform the label form "E-conflict#R-balanced" to columns with 1/0 for each label
+    # By transforming the label form "E-conflict#R-balanced" to columns with 1/0 for each label
     annotations = df["label"].tolist()
 
     # The binary representation for each row will take the form of this list: 
@@ -26,9 +26,6 @@ def preprocess_general(data):
                "R-balanced", "R-opportunity", "R-risk", "N/A"]
     # Where a 1 will indicate it's present, and a 0 means it's not present. 
 
-    # Contains the binary representation of the labels
-    all_coding = []
-
     # Split the labels on '#', add them to a list 
     all_labels = [str(line).split("#") for line in annotations]
 
@@ -36,7 +33,6 @@ def preprocess_general(data):
     # where a 1 is given if the option label is present in the current row, otherwise it gives a 0
     all_coding = [[1 if option in row else 0 for option in options] for row in all_labels]
 
-    
     # Make a new dataframe with only the binary coding
     df = pd.DataFrame(all_coding)
 
@@ -48,20 +44,35 @@ def preprocess_general(data):
     df = df.rename(columns={0:"E-responsibility", 1:"E-conflict", 2:"E-economic consequences", 3:"E-human interest",
                             4:"E-morality", 5:"E-info & stats", 6:"V-pos", 7:"V-mod", 8:"V-neg", 9:"R-balanced",
                             10:"R-opportunity", 11:"R-risk", 12:"N/A"})
-
-    
     return df 
     
-    
 def get_features_and_labels(train, test, framing, text_method): 
+    
+    """
+    Extract features and their corresponding labels to create the train and test sets
+    
+    Keyword parameters: 
+    train - DataFrame containing the training data
+    test - DataFrame containing the test data 
+    framing - string specifying the framing type 
+    text method - string specifying the text representation method 
+    
+    Output: 
+    train_features - list with the features of the training set 
+    train_labels - list with the corresponding labels 
+    test_features - list with the features of the test set 
+    test_labels - list with the corresponding labels 
+    
+    TO DO: 
+    - see how the length of this function can be reduced    
+    """
     
     emphasis = ["E-responsibility", "E-conflict", "E-economic consequences", "E-human interest",
                "E-morality", "E-info & stats"]
     
     if framing in emphasis:
         var1 = framing
-    
-    
+
     elif framing == 'valence': 
         var1 = 'V-pos'
         var2 = 'V-mod'
@@ -71,14 +82,11 @@ def get_features_and_labels(train, test, framing, text_method):
         var1 = 'R-risk'
         var2 = 'R-balanced'
         var3 = 'R-opportunity'
-        
-        
-    ### Training features + labels
 
+    ### Training features + labels
     # Features
     train_features = train[f"{text_method}"].tolist()
-    
-    
+
     emphasis = ["E-responsibility", "E-conflict", "E-economic consequences", "E-human interest",
                "E-morality", "E-info & stats"]
     
@@ -103,7 +111,6 @@ def get_features_and_labels(train, test, framing, text_method):
         mapping = {var1:1, 'None':0}
         test_labels = [mapping.get(item, 2) for item in test_labels_as_strings]
     
-    
     elif framing == 'risk' or framing == 'valence':
         # Labels
         df_labels_train = train[[var1, var2, var3, 'None']]
@@ -126,7 +133,6 @@ def get_features_and_labels(train, test, framing, text_method):
         mapping = {var1:1, var2:2, var3:3, 'None':4}
         test_labels = [mapping.get(item, 4) for item in test_labels_as_strings]
     
-    
     else: 
         print('\n')
         print('===============================================================')
@@ -134,12 +140,37 @@ def get_features_and_labels(train, test, framing, text_method):
         print("You may have made a typo when specifying the framing variable.")
         print('===============================================================')
         print('\n')
-
     
     return train_features, train_labels, test_features, test_labels
 
-    
 def get_train_test(df, framing, text_method, input_type): 
+    
+    """
+    Split the DataFrame into a train and test set 
+    
+    These steps are followed: 
+    - establish the framing type 
+    - select the columns containing framing annotations 
+    - add None variable to rows where no framing is annotated 
+    - obtain train/test features and labels 
+    
+    Keyword parameters: 
+    df - DataFrame 
+    framing - string specifying the framing type 
+    text_method - stirng specifying the text representation method 
+    input_type - string specifying the structure type of the texts 
+    
+    Output: 
+    train_features - list with the features of the training set 
+    train_labels - list with the corresponding labels 
+    test_features - list with the features of the test set 
+    test_labels - list with the corresponding labels 
+    
+    
+    TO DO: 
+    - is it inefficient that I return the same variables with two functions? 
+    
+    """
     
     if framing == 'valence': 
         # Grab relevant valence columns
@@ -151,8 +182,7 @@ def get_train_test(df, framing, text_method, input_type):
         #df["None"] = 0
         df.loc[condition, 'None'] = 1
         
-    
-    if framing == 'risk': 
+    elif framing == 'risk': 
         # Grab relevant risk columns
         df = df[['article_id', f'{text_method}', 'R-risk', 'R-balanced', 'R-opportunity']]
 
@@ -163,24 +193,18 @@ def get_train_test(df, framing, text_method, input_type):
 
     emphasis = ["E-responsibility", "E-conflict", "E-economic consequences", "E-human interest",
                "E-morality", "E-info & stats"]
-    
-    if framing in emphasis: 
+
+    elif framing in emphasis: 
         df = df[['article_id', f'{text_method}', f'{framing}']]
-        
+
         # Add None variable
         condition = (df[f'{framing}'] == 0) 
         df.insert(0, 'None', 0)
         df.loc[condition, 'None'] = 1
 
-        
     # Train/test split 
-    train, test = train_test_split(df, test_size = 0.20)
-        
+    train, test = train_test_split(df, test_size = 0.20) 
+
     train_features, train_labels, test_features, test_labels = get_features_and_labels(train, test, framing, text_method)
-        
+
     return train_features, train_labels, test_features, test_labels
-
-
-
-#def augment_data(documents): 
-    
