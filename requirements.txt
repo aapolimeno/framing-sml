@@ -1,0 +1,7 @@
+# Install via 'pip install -r requirements.txt'
+pandas==2.1.2
+nltk==3.8.1
+sklearn==0.0.post10
+spacy==3.6.1
+torch==2.1.0
+numpy==1.26.1
