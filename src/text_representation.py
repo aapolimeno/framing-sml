@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.feature_extraction.text import TfidfVectorizer
 from nltk.corpus import stopwords
 from nltk.tokenize import word_tokenize, sent_tokenize
+from transformers import AutoTokenizer, AutoModel
 
 
 def tfidf_vectorizer(documents): 

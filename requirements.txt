@@ -5,3 +5,4 @@ scikit-learn~=1.4
 spacy~=3.6
 torch~=2.1
 numpy~=1.26
+transformers
