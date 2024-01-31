@@ -161,8 +161,6 @@ def get_train_test(df, framing, text_method, input_type):
         df.insert(0, 'None', 0)
         df.loc[condition, 'None'] = 1
 
-    
-    
     emphasis = ["E-responsibility", "E-conflict", "E-economic consequences", "E-human interest",
                "E-morality", "E-info & stats"]
     

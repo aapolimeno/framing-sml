@@ -11,6 +11,7 @@ def convert_labels(test_labels, preds, framing):
         
     emphasis = ["E-responsibility", "E-conflict", "E-economic consequences", "E-human interest",
                "E-morality", "E-info & stats"]
+    
     if framing in emphasis: 
         reversed_mapping = {1:f'{framing}', 0:'None'}
 

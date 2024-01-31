@@ -25,8 +25,6 @@ def get_confusion_matrix(true_labels, pred_labels, framing):
     
     else: 
         print("Framing type not found, please specify 'framing' variable in main.py")
-    
-    
 
     # Get the confusion matrix
     cm = confusion_matrix(true_labels, pred_labels, labels = labels)
@@ -35,8 +33,6 @@ def get_confusion_matrix(true_labels, pred_labels, framing):
     disp = ConfusionMatrixDisplay(confusion_matrix=cm, display_labels=labels)
     disp.plot(cmap = 'Greens')
     
-
-
 def start_eval(true_labels, pred_labels, framing, algorithm, text_rep, input_type, df): 
     
     get_report(true_labels, pred_labels, framing)

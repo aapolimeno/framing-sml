@@ -12,9 +12,9 @@ df = pd.read_csv(path, sep=';')
 if __name__ == '__main__':
     # To set framing variable, choose from the following options:
     framing = ['risk', 'valence', 'E-responsibility', 'E-morality',
-            'E-conflict','E-economic consequences',
-            'E-human interest', 'E-info & stats']
-
+           'E-conflict','E-economic consequences',
+           'E-human interest', 'E-info & stats']
+    
     # Text representation options: 
     text_reps = ['tfidf']
 
