@@ -3,6 +3,12 @@
 ## Description
 This project investigates the automatic detection of media framing in news articles that are related to COVID-19 by means of machine learning. 
 
+## Installation 
+Install the required packages by pasting the following line into your terminal/command prompt: 
+```bash
+pip install -r requirements.txt
+```
+
 ## Data
 ### `annotated_sample.csv` 
 Contains a sample of the annotated data, which consists of news paper texts accompanied by annotations labels. 
